@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {  signOut } from "firebase/auth";
 import {auth} from '../../firebase';
 import { useNavigate } from 'react-router-dom';
+import {getArduinotoken} from "../../utils"
 // import { ArduinoIoTCloud } from 'arduino-iot-js';
  
 const Home = () => {
@@ -16,23 +17,25 @@ const Home = () => {
             navigate("/login");
         }
 
+        const fetchData = async () => {
+            try {
+                const token = "getTokenUbidots()"
+                const response = await axios.get('https://industrial.api.ubidots.com/api/v1.6/devices/tu_dispositivo', {
+                    headers: {
+                        'X-Auth-Token': token
+                    }
+                });
+                setData(response.data);
+            } catch (error) {
+                console.error('Error al obtener datos de Ubidots:', error);
+            }
+        };
+
+        fetchData();
+
     }, [])
 
-    // (async () => {
-    //     const client = await ArduinoIoTCloud.connect({
-    //         deviceId: 'YOUR_DEVICE_ID',
-    //         secretKey: 'YOUR_SECRET_KEY',
-    //         onDisconnect: (message) => console.error(message),
-    //     });
 
-    //     // Send property's values as a device
-    //     // const value = 'some value';
-    //     // client.sendProperty('YOUR_VARIABLE_NAME', value);
-
-    //     // Listen property's updates
-    //     client.onPropertyValue('ANOTHER_VARIABLE_NAME', (value) => console.log(value));
-    // })();
-        
     const handleLogout = () => {               
         signOut(auth).then(() => {
         // Sign-out successful.
