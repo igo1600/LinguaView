@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {  createUserWithEmailAndPassword, updateProfile  } from 'firebase/auth';
 import { auth } from '../../firebase';
+import { toast } from 'react-toastify';
  
 const Signup = () => {
     const navigate = useNavigate();
@@ -29,6 +30,16 @@ const Signup = () => {
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
+            toast.error(errorMessage, {
+                position: 'bottom-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'colored'
+            })
             console.log(errorCode, errorMessage);
             // ..
         });
