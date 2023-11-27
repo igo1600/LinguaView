@@ -70,7 +70,7 @@ const Home = () => {
  
                     <div>
                         <p className=' font-bold'>
-                            Rol: {auth.currentUser.displayName || "Usuario"}
+                            Rol: {auth?.currentUser?.displayName || "Usuario"}
                         </p>
             			<button onClick={handleLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                             Logout
@@ -93,18 +93,18 @@ const Home = () => {
                 </div>
             </main>
             <div className="container mx-auto flex items-center justify-center space-x-4">
-                {auth.currentUser.displayName == "Admin" ? <p className="text-center">Seleccionar idioma:</p> : <p className="text-center">Idioma:</p>}
+                {auth?.currentUser?.displayName == "Admin" ? <p className="text-center">Seleccionar idioma:</p> : <p className="text-center">Idioma:</p>}
                 <select 
                     className=" appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                     value={language}
-                    disabled={auth.currentUser.displayName != "Admin"}
+                    disabled={auth?.currentUser?.displayName != "Admin"}
                     onChange={(e) => setLanguage(e.target.value)}
                 >
                     <option>English</option>
                 </select>
                 
             </div>
-            {auth.currentUser.displayName != "Admin" && <p className="text-center text-red-500">*Solo disponible para administradores*</p>}
+            {auth?.currentUser?.displayName != "Admin" && <p className="text-center text-red-500">*Solo disponible para administradores*</p>}
         </>
     );
 }
