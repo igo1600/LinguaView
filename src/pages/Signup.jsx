@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import {  createUserWithEmailAndPassword  } from 'firebase/auth';
+import {  createUserWithEmailAndPassword, updateProfile  } from 'firebase/auth';
 import { auth } from '../../firebase';
  
 const Signup = () => {
@@ -8,6 +8,7 @@ const Signup = () => {
  
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('');
+    const [rol, setRol] = useState("Usuario")
  
     const onSubmit = async (e) => {
       e.preventDefault()
@@ -15,9 +16,14 @@ const Signup = () => {
       await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in
-            const user = userCredential.user;
-            console.log(user);
-            navigate("/login")
+            updateProfile(auth.currentUser, {
+                displayName: rol
+            }).then((res) => {
+                const user = userCredential.user;
+                console.log(user);
+                navigate("/login")
+            })
+
             // ...
         })
         .catch((error) => {
@@ -66,7 +72,25 @@ const Signup = () => {
                             required                                 
                             placeholder="Password"              
                         />
-                    </div>                                             
+                    </div>   
+
+                    <div>
+                        <label htmlFor="rol" className="block text-gray-700 text-sm font-bold mb-2">
+                            Rol
+                        </label>
+                        <select
+                            id="rol"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                            value={rol}
+                            onChange={(e) => setRol(e.target.value)}
+                            required
+                        >
+                            <option value="" disabled>Selecciona un rol</option>
+                            <option value="Usuario">Usuario</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div>
+
                     
                     <button
                         type="submit"
