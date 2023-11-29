@@ -2,8 +2,6 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_PCD8544.h>
 #include <driver/i2s.h>
-#include <FreeRTOS.h>
-#include <task.h> 
 // Conexiones al INMP441
 #define I2S_WS 2
 #define I2S_SD 5
@@ -68,9 +66,6 @@ void setup()
   
   displayText();
 
-  /* Microphone */
-  pinMode (Analog_Eingang, INPUT);
-  Serial.begin (115200);
   delay(1000);    
 }
 
@@ -79,7 +74,7 @@ void loop()
   //adcValue = analogRead(adcPin);
   //contrastValue = map(adcValue, 0, 4095, 0, 100);
   //setContrast();
-  displayText();
+  
   
 }
 
@@ -89,12 +84,14 @@ void setContrast()
   display.display();
 }
 
-void displayText(char * Buffer)
+void displayText()
 {
   display.clearDisplay();
   display.setTextColor(BLACK, WHITE);
   display.setCursor(0,1);
   display.setTextSize(1);
-  display.print("Hola Lupita como te ha ido este dia, a sido muy bueno pero necesitamos que ver que pasa con el buffer");
+  display.print("Texto:");
+  display.setCursor(0,9);
+  display.print("Place Holder");
   display.display();
 }
